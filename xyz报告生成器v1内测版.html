@@ -316,6 +316,8 @@
         .summary-header span:first-child{font-size:12px;font-weight:600;color:var(--tx-2);letter-spacing:.5px}
         .summary-header span:nth-child(2){color:var(--tx-4)}
         .summary-body{padding:16px 22px 18px}
+        .person-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+        .person-info-grid textarea{min-height:110px}
         /* ==================== TOOLTIP ==================== */
         .tt{position:fixed;pointer-events:none;background:var(--bg-0);color:var(--tx-1);
             padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);
@@ -345,6 +347,7 @@
             .intervention-limit-panel{grid-template-columns:1fr}
             .btn-row{grid-template-columns:1fr}
             .action-group.export .action-group-buttons{grid-template-columns:1fr}
+            .person-info-grid{grid-template-columns:1fr}
         }
         @media print{body{padding:10px;background:#fff;color:#000}.card{border:1px solid #ccc;box-shadow:none}}
     </style>
@@ -534,6 +537,22 @@
         <div class="anomaly-list" id="anomalyList"></div>
         <div class="anomaly-add-area"><button class="btn-add-img" onclick="addAnomalyItem()">➕ <span id="addAnomalyItemBtnText">異常記録を追加</span></button></div>
     </div>
+    <div class="summary-section" id="personInfoSection">
+        <div class="summary-header"><span id="personInfoSectionTitle">👥 PM / FAE 情報</span><span id="personInfoSectionNote" style="color:var(--tx-4);font-size:12px">※ Excel と dashboard の両方に出力されます</span></div>
+        <div class="summary-body">
+            <div class="person-info-grid">
+                <div class="form-group">
+                    <label id="pmInfoLabel" style="font-size:10px;font-weight:600;color:var(--tx-4);margin-bottom:6px;display:block;letter-spacing:.8px;text-transform:uppercase">PM 情報</label>
+                    <textarea id="pmInfo" placeholder="例:&#10;山田 太郎&#10;PM / Project Manager&#10;mail@example.com&#10;090-xxxx-xxxx" style="width:100%;min-height:110px;padding:11px 13px;border:1px solid var(--border);border-radius:4px;font-size:13px;font-family:inherit;background:var(--bg-2);color:var(--tx-1);resize:vertical;line-height:1.7"></textarea>
+                </div>
+                <div class="form-group">
+                    <label id="faeInfoLabel" style="font-size:10px;font-weight:600;color:var(--tx-4);margin-bottom:6px;display:block;letter-spacing:.8px;text-transform:uppercase">FAE 情報</label>
+                    <textarea id="faeInfo" placeholder="例:&#10;佐藤 花子&#10;FAE / Field Application Engineer&#10;mail@example.com&#10;090-xxxx-xxxx" style="width:100%;min-height:110px;padding:11px 13px;border:1px solid var(--border);border-radius:4px;font-size:13px;font-family:inherit;background:var(--bg-2);color:var(--tx-1);resize:vertical;line-height:1.7"></textarea>
+                </div>
+            </div>
+            <div class="hint" id="personInfoHint" style="margin-top:8px">※ 氏名、所属、メール、電話番号など、必要な情報を自由に記入できます。空欄なら出力されません。</div>
+        </div>
+    </div>
     <div class="summary-section" id="summarySection">
         <div class="summary-header"><span id="summarySectionTitle">📝 総括・まとめ</span><span id="summarySectionNote" style="color:var(--tx-4);font-size:12px">※ ダッシュボードの最後に出力されます</span></div>
         <div class="summary-body">
@@ -692,6 +711,13 @@ var MAIN_I18N = {
     orderEditHint:{ja:'✅ 統合: 隣接するオーダーのチェックボックスを選択し、「選択統合」を押してください。🗑️ 削除: 行末の削除ボタンで除外できます。<br>✏️「コンテナ総箱数」と「ロボット介入回数」は手動入力できます。',zh:'✅ 合并：勾选相邻订单后点击“合并所选”。🗑️ 删除：可通过行末删除按钮排除。<br>✏️ “容器总箱数”和“机器人干预次数”可手动输入。',en:'✅ Merge: Select adjacent order checkboxes and click "Merge Selected". 🗑️ Delete: Use the delete button at the end of a row. <br>✏️ "Container Total Boxes" and "Robot Interventions" can be entered manually.'},
     anomalySectionTitle:{ja:'⚠️ 異常記録（画像・動画・原因・対応状況）',zh:'⚠️ 异常记录（图片、视频、原因、处理状态）',en:'⚠️ Anomaly Records (media, cause, status)'},
     addAnomalyItemBtnText:{ja:'異常記録を追加',zh:'新增异常记录',en:'Add Anomaly Record'},
+    personInfoSectionTitle:{ja:'👥 PM / FAE 情報',zh:'👥 PM / FAE 信息',en:'👥 PM / FAE Info'},
+    personInfoSectionNote:{ja:'※ Excel と dashboard の両方に出力されます',zh:'※ 会同时输出到 Excel 和 dashboard',en:'Note: Exported to both Excel and the dashboard.'},
+    pmInfoLabel:{ja:'PM 情報',zh:'PM 信息',en:'PM Info'},
+    faeInfoLabel:{ja:'FAE 情報',zh:'FAE 信息',en:'FAE Info'},
+    pmInfoPlaceholder:{ja:'例:\n山田 太郎\nPM / Project Manager\nmail@example.com\n090-xxxx-xxxx',zh:'例：\n张三\nPM / Project Manager\nmail@example.com\n090-xxxx-xxxx',en:'e.g.\nJohn Smith\nPM / Project Manager\nmail@example.com\n090-xxxx-xxxx'},
+    faeInfoPlaceholder:{ja:'例:\n佐藤 花子\nFAE / Field Application Engineer\nmail@example.com\n090-xxxx-xxxx',zh:'例：\n李四\nFAE / Field Application Engineer\nmail@example.com\n090-xxxx-xxxx',en:'e.g.\nJane Doe\nFAE / Field Application Engineer\nmail@example.com\n090-xxxx-xxxx'},
+    personInfoHint:{ja:'※ 氏名、所属、メール、電話番号など、必要な情報を自由に記入できます。空欄なら出力されません。',zh:'※ 可自由填写姓名、所属、邮箱、电话等信息。留空则不输出。',en:'Note: Enter any needed details such as name, team, email, or phone. Blank fields are not exported.'},
     summarySectionTitle:{ja:'📝 総括・まとめ',zh:'📝 总结',en:'📝 Summary'},
     summarySectionNote:{ja:'※ ダッシュボードの最後に出力されます',zh:'※ 将显示在dashboard最后',en:'Note: Shown at the end of the dashboard'},
     summaryTitleFieldLabel:{ja:'タイトル（任意）',zh:'标题（可选）',en:'Title (optional)'},
@@ -809,6 +835,11 @@ function applyMainLanguage(){
     setText('resetMergeBtnText','resetMergeBtnText');
     setText('anomalySectionTitle','anomalySectionTitle');
     setText('addAnomalyItemBtnText','addAnomalyItemBtnText');
+    setText('personInfoSectionTitle','personInfoSectionTitle');
+    setText('personInfoSectionNote','personInfoSectionNote');
+    setText('pmInfoLabel','pmInfoLabel');
+    setText('faeInfoLabel','faeInfoLabel');
+    setText('personInfoHint','personInfoHint');
     setText('summarySectionTitle','summarySectionTitle');
     setText('summarySectionNote','summarySectionNote');
     setText('summaryTitleFieldLabel','summaryTitleFieldLabel');
@@ -829,6 +860,10 @@ function applyMainLanguage(){
     if(summaryTitle) summaryTitle.placeholder=mt('summaryTitlePlaceholder');
     var summaryBody=document.getElementById('summaryBody');
     if(summaryBody) summaryBody.placeholder=mt('summaryBodyPlaceholder');
+    var pmInfo=document.getElementById('pmInfo');
+    if(pmInfo) pmInfo.placeholder=mt('pmInfoPlaceholder');
+    var faeInfo=document.getElementById('faeInfo');
+    if(faeInfo) faeInfo.placeholder=mt('faeInfoPlaceholder');
     updateMainOptionLabels();
     updateModeHint();
     updateDashboardImportInfo();
@@ -1410,6 +1445,14 @@ function fmtDateForSummary(s){
         return String(s);
     }
 }
+function getFirstNonEmptySnapshotText(snapshotItems, key){
+    for(var i=0;i<(snapshotItems||[]).length;i++){
+        var snapshot=snapshotItems[i]&&snapshotItems[i].snapshot;
+        var value=snapshot&&snapshot[key]!==undefined?snapshot[key]:'';
+        if(String(value||'').trim()) return String(value).trim();
+    }
+    return '';
+}
 function mergeAnomalyItemsFromSnapshots(items){
     var out=[];
     var seen=new Set();
@@ -1503,6 +1546,8 @@ function applyWeeklyDashboardSnapshots(snapshotItems){
     updateRobotInterventionLimitUI();
     if(first.title) document.getElementById('dashboardTitle').value=first.title;
     if(first.theme&&isValidTheme(first.theme)) applyTheme(first.theme);
+    document.getElementById('pmInfo').value=getFirstNonEmptySnapshotText(snapshotItems,'pmInfo');
+    document.getElementById('faeInfo').value=getFirstNonEmptySnapshotText(snapshotItems,'faeInfo');
     document.getElementById('summaryTitle').value='週次まとめ';
     document.getElementById('summaryBody').value=buildWeeklySummaryFromSnapshots(snapshotItems);
 
@@ -1563,6 +1608,8 @@ function applyDashboardSnapshot(snapshot, fileName){
     updateRobotInterventionLimitUI();
     if(snapshot.title) document.getElementById('dashboardTitle').value=snapshot.title;
     if(snapshot.theme&&isValidTheme(snapshot.theme)) applyTheme(snapshot.theme);
+    if(snapshot.pmInfo!==undefined) document.getElementById('pmInfo').value=snapshot.pmInfo||'';
+    if(snapshot.faeInfo!==undefined) document.getElementById('faeInfo').value=snapshot.faeInfo||'';
     if(snapshot.summaryTitle!==undefined) document.getElementById('summaryTitle').value=snapshot.summaryTitle||'';
     if(snapshot.summaryBody!==undefined) document.getElementById('summaryBody').value=snapshot.summaryBody||'';
 
@@ -2335,6 +2382,8 @@ function resetForm(){
     document.getElementById('startTime').value=''; document.getElementById('endTime').value='';
     hideStatus(); document.getElementById('orderEdit').classList.remove('show');
     document.getElementById('anomalySection').classList.remove('show');
+    document.getElementById('pmInfo').value='';
+    document.getElementById('faeInfo').value='';
     document.getElementById('summaryTitle').value='';
     document.getElementById('summaryBody').value='';
     document.getElementById('reportMode').value='standard';
@@ -2536,6 +2585,13 @@ function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 function toggleSkuCell(el){el.classList.toggle('expanded')}
 initMainLanguage();
 
+function getPersonnelInfo(){
+    return {
+        pmInfo:(document.getElementById('pmInfo').value||'').trim(),
+        faeInfo:(document.getElementById('faeInfo').value||'').trim()
+    };
+}
+
 function exportExcel(){
     if(!allData.length){alert(mr('noData'));return}
     var fullTitle=getDashboardOutputTitle();
@@ -2543,12 +2599,19 @@ function exportExcel(){
     var isUnload=mode!=='palletize';
     var limitEnabled=isRobotInterventionLimitEnabled();
     var d=processExportData();
+    var personnel=getPersonnelInfo();
     var fmtD=function(s){if(!s||s==='-')return '-';try{var dt=new Date(s);return dt.getFullYear()+'/'+(dt.getMonth()+1)+'/'+dt.getDate()}catch(e){return s}};
     // 明细表总列数：unload=16/17, palletize=12/13
     var totalCols=isUnload?(limitEnabled?17:16):(limitEnabled?13:12);
     var xl='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><style>td,th{mso-number-format:"\\@";padding:4px 8px;border:1px solid #ccc;font-size:11pt;font-family:"Yu Gothic"} th{background:#c62828;color:#fff;font-weight:bold} .kpi-label{background:#f5f5f5;font-weight:bold} .pass{color:#2e7d32;font-weight:bold} .fail{color:#c62828;font-weight:bold} .warn{color:#ef6c00;font-weight:bold}</style></head><body>';
     xl+='<table><tr><td colspan="'+totalCols+'" style="font-size:16pt;font-weight:bold;padding:10px;background:#c62828;color:#fff">'+fullTitle+'</td></tr>';
     xl+='<tr><td colspan="'+Math.ceil(totalCols/2)+'" style="font-size:11pt;padding:6px;background:#f5f5f5">作業期間: '+fmtD(d.firstStart)+' ～ '+fmtD(d.lastEnd)+'</td><td colspan="'+Math.floor(totalCols/2)+'" style="font-size:11pt;padding:6px;background:#f5f5f5;text-align:right">総処理コンテナ数: '+d.rows.length+'</td></tr>';
+    if(personnel.pmInfo||personnel.faeInfo){
+        xl+='<tr><td colspan="'+totalCols+'" style="height:6px"></td></tr>';
+        xl+='<tr><td class="kpi-label" colspan="'+totalCols+'">担当者情報</td></tr>';
+        if(personnel.pmInfo) xl+='<tr><td class="kpi-label" colspan="2">PM</td><td colspan="'+(totalCols-2)+'">'+escHtml(personnel.pmInfo).replace(/\n/g,'<br>')+'</td></tr>';
+        if(personnel.faeInfo) xl+='<tr><td class="kpi-label" colspan="2">FAE</td><td colspan="'+(totalCols-2)+'">'+escHtml(personnel.faeInfo).replace(/\n/g,'<br>')+'</td></tr>';
+    }
     xl+='<tr><td colspan="'+totalCols+'" style="height:8px"></td></tr>';
     if(isUnload){
         // 16列: 2+2+3+3+2+2+2 = 16
@@ -2699,13 +2762,14 @@ function getDashboardThemeCSS(theme, kpiCols){
         '.sku-expand-all{font-size:12px;font-weight:700;color:var(--accent);cursor:pointer;padding:5px 12px;background:var(--chip-bg);border:1px solid var(--border);border-radius:4px}',
         '.daily-summary-section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:22px 24px;margin-bottom:18px;box-shadow:var(--shadow)}.daily-summary-title{font-size:13px;font-weight:800;color:var(--text-main);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}.daily-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.daily-summary-card{background:var(--panel-soft);border:1px solid var(--border);border-radius:8px;padding:16px 18px}.daily-summary-card.emphasis{background:var(--panel-alt)}.ds-label{font-size:11px;font-weight:800;color:var(--text-muted);margin-bottom:10px;letter-spacing:.8px;text-transform:uppercase}.ds-value{font-size:24px;font-weight:800;color:var(--text-main);line-height:1.3}.ds-value.small{font-size:15px;font-weight:700}.ds-note{font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.6}',
         '.time-kpi-section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:22px 24px;margin-bottom:18px;box-shadow:var(--shadow)}.time-kpi-title{font-size:13px;font-weight:800;color:var(--text-main);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}.time-kpi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.time-kpi-card{background:var(--panel-soft);border:1px solid var(--border);border-radius:8px;padding:16px 18px}.time-kpi-card.tk-total{background:var(--panel-alt)}.tk-label{font-size:11px;font-weight:800;color:var(--text-muted);margin-bottom:10px;letter-spacing:.8px;text-transform:uppercase}.tk-note{font-size:10px;font-weight:400}.tk-val{font-size:34px;font-weight:800;margin-bottom:5px;line-height:1.1}.tk-val.green{color:var(--pass)}.tk-val.orange{color:var(--warn)}.tk-val.red{color:var(--fail)}.tk-val.gray{color:var(--text-muted)}.tk-detail{font-size:12px;color:var(--text-muted);margin-bottom:8px}.tk-result{font-size:11px;font-weight:700;margin-top:8px}.tk-result.pass{color:var(--pass)}.tk-result.fail{color:var(--fail)}.tk-bar{width:100%;height:6px;background:var(--panel-alt);border-radius:3px;overflow:hidden;margin-top:10px}.tk-bar-fill{height:100%;transition:width .3s}.tk-bar-fill.green{background:var(--pass)}.tk-bar-fill.orange{background:var(--warn)}.tk-bar-fill.red{background:var(--fail)}.tk-bar-fill.gray{background:var(--text-muted)}',
+        '.contact-info-section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:22px 24px;margin-bottom:18px;box-shadow:var(--shadow)}.contact-info-title{font-size:15px;font-weight:800;color:var(--text-main);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}.contact-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.contact-info-card{background:var(--panel-soft);border:1px solid var(--border);border-radius:8px;padding:16px 18px}.contact-info-label{font-size:11px;font-weight:800;color:var(--text-muted);margin-bottom:10px;letter-spacing:.8px;text-transform:uppercase}.contact-info-value{font-size:14px;line-height:1.8;color:var(--text-sub);word-break:break-word}',
         '.summary-section-out{background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:10px;padding:22px 26px;margin-bottom:18px;box-shadow:var(--shadow)}.summary-title-out{font-size:15px;font-weight:800;color:var(--accent);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}.summary-body-out{font-size:15px;line-height:1.9;color:var(--text-sub)}',
         '.anomaly-section-out{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:22px 24px;margin-bottom:18px;box-shadow:var(--shadow)}.anm-section-title{font-size:15px;font-weight:800;color:var(--fail);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}.anm-summary-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}.anm-chip{display:inline-block;padding:5px 12px;border-radius:14px;font-size:12px;font-weight:700}.anm-chip-total{background:var(--chip-bg);color:var(--chip-tx)}',
         '.anm-list{display:flex;flex-direction:column;gap:14px}.anm-card{background:var(--panel-soft);border:1px solid var(--border);border-radius:8px;border-left:4px solid var(--text-muted);overflow:hidden}.anm-card.anm-status-unresolved{border-left-color:var(--fail)}.anm-card.anm-status-inprogress{border-left-color:var(--warn)}.anm-card.anm-status-resolved{border-left-color:var(--pass)}.anm-card.anm-status-wontfix{border-left-color:var(--text-muted)}.anm-card-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--panel-alt);border-bottom:1px solid var(--border);flex-wrap:wrap}.anm-no{font-size:12px;font-weight:700;color:var(--text-muted);font-family:Consolas,monospace}.anm-meta-chips{display:flex;gap:6px;flex-wrap:wrap;flex:1}.anm-meta-time{font-size:11px;color:var(--text-sub);font-weight:600;padding:3px 9px;background:var(--panel);border:1px solid var(--border);border-radius:3px}.anm-meta-chip{font-size:11px;font-weight:700;padding:3px 10px;border-radius:3px}.anm-card-body{padding:14px 16px}.anm-media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:12px}.anm-media-cell{border-radius:4px;overflow:hidden;border:1px solid var(--border);background:var(--panel-alt)}.anm-media-cell img,.anm-media-cell video{width:100%;display:block;max-height:240px;object-fit:contain;background:var(--panel-alt)}.anm-media-cell video{background:#000}.anm-field{margin-bottom:10px}.anm-field:last-child{margin-bottom:0}.anm-field-label{font-size:11px;color:var(--text-muted);font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}.anm-field-value{font-size:14px;color:var(--text-sub);line-height:1.7;word-break:break-word}',
         '.footer{text-align:center;padding:18px 8px;font-size:11px;color:var(--text-muted)}',
         '.lightbox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.90);z-index:10000;cursor:zoom-out;align-items:center;justify-content:center;padding:40px}.lightbox.show{display:flex}.lightbox img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 14px 48px rgba(0,0,0,.45);cursor:default;border:1px solid var(--border)}.lightbox-close{position:fixed;top:20px;right:24px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:22px;cursor:pointer;line-height:38px;text-align:center;padding:0}.lightbox-close:hover{background:var(--accent);color:#001a22;border-color:var(--accent)}.lightbox-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:12px}',
-        '@media (max-width:960px){body{padding:14px}.title-bar h1{font-size:22px}.lang-switcher{position:static;margin-top:10px;display:inline-flex}.hdr{flex-direction:column;align-items:flex-start;gap:6px}.kpi-row,.daily-summary-grid,.time-kpi-grid{grid-template-columns:1fr}.chart-wrap{height:280px}.chart-area{gap:12px}.tbl-title{flex-direction:column;align-items:flex-start}}',
-        '@media print{body{padding:10px;background:#fff;color:#333}.kpi,.tbl-section,.chart-section,.time-kpi-section,.summary-section-out,.anomaly-section-out,.hdr{background:#fff;border:1px solid #ccc;box-shadow:none;color:#333}.kpi .val,.tk-val,.hdr .right,.summary-title-out{color:#333}.summary-body-out,.anm-field-value,.sku-item-name,.sku-item-dim,td{color:#333}th{background:#f5f5f5;color:#555}.title-bar h1{-webkit-text-fill-color:#333;color:#333}.lang-switcher,.lightbox{display:none !important}}'
+        '@media (max-width:960px){body{padding:14px}.title-bar h1{font-size:22px}.lang-switcher{position:static;margin-top:10px;display:inline-flex}.hdr{flex-direction:column;align-items:flex-start;gap:6px}.kpi-row,.daily-summary-grid,.time-kpi-grid,.contact-info-grid{grid-template-columns:1fr}.chart-wrap{height:280px}.chart-area{gap:12px}.tbl-title{flex-direction:column;align-items:flex-start}}',
+        '@media print{body{padding:10px;background:#fff;color:#333}.kpi,.tbl-section,.chart-section,.time-kpi-section,.contact-info-section,.summary-section-out,.anomaly-section-out,.hdr{background:#fff;border:1px solid #ccc;box-shadow:none;color:#333}.kpi .val,.tk-val,.hdr .right,.summary-title-out{color:#333}.contact-info-value,.summary-body-out,.anm-field-value,.sku-item-name,.sku-item-dim,td{color:#333}th{background:#f5f5f5;color:#555}.title-bar h1{-webkit-text-fill-color:#333;color:#333}.lang-switcher,.lightbox{display:none !important}}'
     ].join('');
 }
 
@@ -2786,6 +2850,7 @@ function _buildDashboardCore(resolveMedia){
     var titleInput=document.getElementById('dashboardTitle').value||'受注実績';
     var fullTitle=getDashboardOutputTitle();
     var d=processExportData();
+    var personnel=getPersonnelInfo();
     var fmtDate=function(s){if(!s||s==='-')return '-';try{var dt=new Date(s);return dt.getFullYear()+'/'+(dt.getMonth()+1)+'/'+dt.getDate()}catch(e){return s}};
     var headerStart=fmtDate(d.firstStart), headerEnd=fmtDate(d.lastEnd);
 
@@ -3048,6 +3113,17 @@ function _buildDashboardCore(resolveMedia){
         anomalyHTML+='</div></div>';
     }
     var videoHTML=''; // 動画は異常記録に統合済み（後方互換のため空）
+    var personnelHTML='';
+    if(personnel.pmInfo||personnel.faeInfo){
+        personnelHTML='<div class="contact-info-section"><div class="contact-info-title">👥 担当者情報</div><div class="contact-info-grid">';
+        if(personnel.pmInfo){
+            personnelHTML+='<div class="contact-info-card"><div class="contact-info-label">PM</div><div class="contact-info-value">'+escHtml(personnel.pmInfo).replace(/\n/g,'<br>')+'</div></div>';
+        }
+        if(personnel.faeInfo){
+            personnelHTML+='<div class="contact-info-card"><div class="contact-info-label">FAE</div><div class="contact-info-value">'+escHtml(personnel.faeInfo).replace(/\n/g,'<br>')+'</div></div>';
+        }
+        personnelHTML+='</div></div>';
+    }
 
     // 総括（まとめ）セクション
     var summaryHTML='';
@@ -3084,7 +3160,7 @@ function _buildDashboardCore(resolveMedia){
         };
     });
     var dashboardSnapshot={
-        version:6,
+        version:7,
         mode:mode,
         reportMode:reportMode,
         title:titleInput||'受注実績',
@@ -3095,6 +3171,8 @@ function _buildDashboardCore(resolveMedia){
         robotInterventionLimitEnabled:isRobotInterventionLimitEnabled(),
         robotInterventionTimeMin:getRobotInterventionTimeMinutes(),
         latestEnd:d.lastEnd||null,
+        pmInfo:personnel.pmInfo,
+        faeInfo:personnel.faeInfo,
         summaryTitle:(document.getElementById('summaryTitle').value||'').trim(),
         summaryBody:(document.getElementById('summaryBody').value||'').trim(),
         anomalyItems:cloneAnomalyItemsForSnapshot(anomalyItems),
@@ -3163,6 +3241,10 @@ function _buildDashboardCore(resolveMedia){
         '種':{zh:'种',en:' types'},
         '種 SKU':{zh:'种 SKU',en:' SKUs'},
         '📦':{zh:'📦',en:'📦'},
+        '👥 担当者情報':{zh:'👥 担当者信息',en:'👥 Contact Info'},
+        '担当者情報':{zh:'担当者信息',en:'Contact Info'},
+        'PM':{zh:'PM',en:'PM'},
+        'FAE':{zh:'FAE',en:'FAE'},
         '⚠️ 異常記録':{zh:'⚠️ 异常记录',en:'⚠️ Anomaly Records'},
         '総件数:':{zh:'总件数:',en:'Total:'},
         '未対応':{zh:'未处理',en:'Unresolved'},
@@ -3218,6 +3300,7 @@ function _buildDashboardCore(resolveMedia){
     html+=chartSectionHTML;
     html+='<div class="tbl-section"><div class="tbl-title"><span>オーダー明細</span><span class="sku-expand-all" onclick="toggleAllSku(this)" data-state="collapsed">🔽 全SKU展開</span></div><div class="tbl-wrap"><table><thead><tr>'+tableHeader+'</tr></thead><tbody>'+tableRows+'</tbody></table></div></div>';
     html+=videoHTML;
+    html+=personnelHTML;
     html+=anomalyHTML;
     html+=summaryHTML;
     html+='<div class="footer">エクスポート日時: '+new Date().toLocaleString('ja-JP')+' ｜ '+fullTitle+'</div>';
