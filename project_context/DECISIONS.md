@@ -169,3 +169,11 @@
   - Main-page language preference is now stored in `reporttoolMainLangV1`.
   - Main-page font stacks now switch with the selected language so Japanese, Chinese, and English each use a more appropriate typeface family.
   - Runtime UI messages now also follow the selected language, including status banners and most alert/confirm/error prompts.
+
+## 2026-04-27
+- Decision: Add free-form `PM / FAE` info inputs to the home page and export them into Excel/dashboard snapshots.
+- Why: User needs report-level personnel/contact information to be entered once on the main page and carried through both output formats.
+- Impact:
+  - Added a dedicated `PM / FAE` section with multiline text inputs on the main page.
+  - Excel export now includes a `担当者情報` block when either field is filled.
+  - Dashboard HTML now renders a contact-info section and embedded snapshots preserve `pmInfo` / `faeInfo` for re-import.
