@@ -21,6 +21,10 @@
   - `読込`
   - `操作`
   - `出力`
+- Home page also includes a `PM / FAE` information section:
+  - `PM 情報`
+  - `FAE 情報`
+  - Both fields accept free-form multiline contact/person details and are exported to Excel + dashboard HTML.
 - Theme labels shown to users:
   - `ダーク`
   - `やわらか`
@@ -45,7 +49,7 @@
   - `getDashboardThemeCSS(theme, kpiCols)`
 - Exported dashboard also embeds restore snapshot JSON:
   - script id: `rt-dash-snapshot`
-  - snapshot includes order rows + summary + anomaly media/text + report mode
+  - snapshot includes order rows + summary + anomaly media/text + report mode + PM/FAE info
 - In `palletize` mode, both the home-page order list and exported dashboard order list hide the `コンテナ種別` column.
 - Dashboard KPI card for intervention now shows average robot intervention rate (`avgRobotIR`) instead of the generic intervention rate average.
 - In `XYZNitoriReport.html`, HTML export now also supports an optional browser file-save flow that can overwrite a previously chosen dashboard HTML when the browser supports File System Access API.
