@@ -1,7 +1,7 @@
 # Handoff
 
 ## Latest Status
-- Date: 2026-04-22
+- Date: 2026-04-27
 - Branch/Repo state: local workspace files (no git repo detected in this folder)
 - Main file touched: `XYZNitoriReport.html`
 
@@ -81,6 +81,11 @@
   - Main-page language is persisted in `localStorage` via `reporttoolMainLangV1`.
   - Main-page font stacks also switch with the selected language.
   - Runtime status banners and most alert/confirm/error prompts now also localize with the selected language.
+- Added `PM / FAE` personnel info inputs on the home page:
+  - New multiline `PM 情報` and `FAE 情報` fields accept free-form contact/person details.
+  - Excel export now includes a `担当者情報` block when either field is filled.
+  - Exported dashboard HTML now renders the same PM/FAE info section.
+  - Dashboard snapshots now preserve `pmInfo` and `faeInfo`, so imported dashboards restore the fields.
 
 ## Not Completed / Open Checks
 - Manual visual QA in browser (desktop + mobile viewport) still recommended.
